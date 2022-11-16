@@ -1,0 +1,28 @@
+{
+  "name": "create-crudify-app",
+  "version": "0.2.0",
+  "description": "create-crudify-app은 crudify의 기본적인 설정을 도와주는 module입니다.",
+  "author": {
+    "name": "공재혁",
+    "email": "ruud091@gmail.com"
+  },
+  "main": "./bin/create-crudify-app.js",
+  "bin": {
+    "create-crudify-app": "./bin/create-crudify-app.js"
+  },
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ponjaehyeok/crudify.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "commander": "9.4.1",
+    "bycrypt": "5.1.0",
+    "inquirer": "8.2.5",
+    "lodash.template": "^4.5.0",
+    "ora": "5.4.1"
+  }
+}
