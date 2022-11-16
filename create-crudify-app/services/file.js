@@ -1,5 +1,6 @@
 const fs = require("fs/promises");
 const path = require("path");
+const crypto = require("crypto");
 const template = require("lodash.template");
 
 class FileService {
@@ -40,9 +41,7 @@ class FileService {
       description: "a crudify api server application",
       devDependencies: {},
       dependencies: {
-        "express": "4.16.1",
-        "mongoose": "6.6.5",
-        "rxjs": "7.5.7",
+        "@crudify": "0.1.0",
       },
       license: "ISC",
     };
@@ -57,12 +56,13 @@ class FileService {
   }
 
   async generateEnv() {
+    const generateSecret = () => crypto.randomBytes(16).toString("base64");
     const envTemplate = await fs.readFile(path.join(this.resourcePath, "templates", "env.template"));
     const compile = template(envTemplate);
     const env = compile({
-      appKeys: new Array(4).fill().map(() => "generateSecret").join(","),
-      apiTokenSalt: "generateSecret",
-      adminJwtToken: "generateSecret",
+      appKeys: new Array(4).fill().map(generateSecret).join(","),
+      apiTokenSalt: generateSecret(),
+      adminJwtToken: generateSecret(),
     });
 
     try {
