@@ -8,6 +8,8 @@ import Home from "../components/Home";
 import Contents from "../components/Contents";
 import Types from "../components/Types";
 import Endpoints from "../components/Endpoints";
+import Log from "../components/Log";
+import Settings from "../components/Settings";
 
 function App() {
   return (
@@ -16,11 +18,13 @@ function App() {
       <MainSection>
         <SideBar />
         <Routes>
+          <Route path="/" element={<Navigate to="/home" />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/models/:model/contents" element={<Contents />} />
           <Route path="/models/:model/types" element={<Types />} />
           <Route path="/models/:model/endpoints" element={<Endpoints />} />
-          <Route path="/" element={<Navigate to="/home" />} />
-          <Route path="/home" element={<Home />} />
+          <Route path="/log" element={<Log />} />
+          <Route path="/settings" element={<Settings />} />
         </Routes>
       </MainSection>
     </Wrapper>
