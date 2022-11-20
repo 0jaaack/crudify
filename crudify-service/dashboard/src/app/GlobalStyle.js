@@ -8,7 +8,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    background-color: #FFFFFF;
+    background-color: #E5E5E5;
     color: #000000;
     font: 300 18px "Noto Sans KR", sans-serif;
   }

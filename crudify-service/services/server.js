@@ -14,7 +14,7 @@ class ServerService {
         useNewUrlParser: true,
       });
     } catch {
-
+      throw new Error("데이터 베이스와의 연결에 실패하였습니다.");
     }
   }
 
@@ -24,7 +24,7 @@ class ServerService {
 
   async loadRouter() {
     this.app.get("/", (req, res) => {
-      res.send("Hello World!");
+      res.send("Hello Crudify World!");
     });
   }
 

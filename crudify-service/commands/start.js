@@ -2,6 +2,8 @@ const path = require("path");
 const cluster = require("cluster");
 const chokidar = require("chokidar");
 
+const spawn = require("child_process").spawn;
+
 const ServerService = require("../services/server");
 
 function start() {
@@ -31,11 +33,17 @@ function primaryProcess() {
   });
 
   cluster.fork();
+
+  const process = spawn("npm", ["run", "manage"], { stdio: "inherit" });
+
+  process.on("error", () => {
+    throw new Error("대시보드를 연결하는 중, 에러가 발생하였습니다.");
+  });
 }
 
-function workerProcess() {
+async function workerProcess() {
   const project = {
-    port: 8081,
+    port: 7286,
     path: process.cwd(),
   };
   const server = new ServerService(project);
@@ -43,7 +51,16 @@ function workerProcess() {
     ignoreInitial: true,
   });
 
-  server.start();
+  await server.start();
+
+  console.log("서버를 여는 데에 성공했습니다.");
+  console.log();
+  console.log(`  localhost:/${project.port}`);
+  console.log("  으로 접속하여 서버를 확인해볼 수 있어요.");
+  console.log();
+  console.log(`  localhost:/${project.port}/dashboard`);
+  console.log(`  으로 접속하여 서버를 관리할 수 있습니다!`);
+  console.log();
 
   watcher
     .on("add", server.reload)

@@ -48,6 +48,7 @@ const ContentTable = styled.table`
   border-collapse: collapse;
   border-spacing: 0 10px;
   border: 1px solid #000000;
+  border-radius: 0.6rem;
   box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
 
   tbody {
