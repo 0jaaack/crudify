@@ -7,7 +7,7 @@ class CommandService {
   }
 
   async installPackage () {
-    const spinner = ora("패키지 파일을 설치 중이에요!").start();
+    const spinner = ora("crudify의 패키지 파일을 설치 중이에요!").start();
 
     const installRunner = () => {
       return new Promise((resolve, reject) => {
@@ -29,10 +29,9 @@ class CommandService {
   };
 
   async startCrudifyApp() {
-    console.log("crudify 서버를 실행하고, 관리자를 위한 대시보드 페이지와 연결할게요.");
-
-    const process = spawn("crudify", ["start"], {
-      cwd: this.project.path
+    const process = spawn("npm", ["run", "start"], {
+      cwd: this.project.path,
+      stdio: "inherit"
     });
 
     process.on("error", () => {
