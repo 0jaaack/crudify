@@ -4,7 +4,7 @@ const commander = require("commander");
 const inquirer = require("inquirer");
 const package = require("../package.json");
 
-const initializeProject = require("../initializeProject");
+const createApplication = require("../createApplication");
 
 const program = new commander.Command();
 
@@ -23,9 +23,9 @@ program
         when: !projectName,
       });
 
-      return initializeProject(promptProjectName, options);
+      return createApplication(promptProjectName, options);
     }
 
-    initializeProject(projectName, options);
+    createApplication(projectName, options);
   })
-  .parse();
+  .parse(process.argv);
