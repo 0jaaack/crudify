@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components";
+import THEME from "../constants/theme";
 
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after {
@@ -8,9 +9,9 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    background-color: #E5E5E5;
-    color: #000000;
-    font: 300 18px "Noto Sans KR", sans-serif;
+    background: ${THEME.BACKGROUND};
+    color: ${THEME.BLACK};
+    font: 300 18px "IBM Plex Sans KR", sans-serif;
   }
 
   li {
@@ -27,6 +28,7 @@ const GlobalStyle = createGlobalStyle`
     border: none;
     color: inherit;
     cursor: pointer;
+    outline: none;
   }
 
   .material-symbols-outlined {
