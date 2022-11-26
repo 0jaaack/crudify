@@ -1,7 +1,6 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
 import ReactDOM from "react-dom";
 import styled from "styled-components";
-import Frame from "../components/FrameWindow";
 
 const ModalContext = createContext();
 
@@ -16,19 +15,31 @@ function Modal({ element, closeModal }) {
 
     body.style.overflow = "hidden";
 
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        return closeModal();
+      }
+    });
+
     return () => {
       body.style.removeProperty("overflow");
     };
   }, []);
 
+  const handleOuterClick = (event) => {
+    if (event.currentTarget === event.target) {
+      closeModal();
+    }
+  };
+
   return (
     <ModalPortal>
-      <ModalBackground onClick={closeModal}>
+      <ModalBackground onClick={handleOuterClick}>
         <ModalWindow>
           <ModalCloseButton onClick={closeModal} className="material-symbols-outlined">
             close
           </ModalCloseButton>
-          {element}
+          {React.cloneElement(element, { closeModal })}
         </ModalWindow>
       </ModalBackground>
     </ModalPortal>
@@ -73,12 +84,13 @@ const ModalBackground = styled.div`
   background: rgba(0, 0, 0, 0.7);
 `;
 
-const ModalWindow = styled(Frame)`
-  width: unset;
-  height: unset;
+const ModalWindow = styled.div`
   min-width: 200px;
   min-height: 200px;
+  background: #e5e5e5;
+  border-radius: 0.9rem;
   position: relative;
+  z-index: 10;
 `;
 
 const ModalCloseButton = styled.span`
@@ -87,6 +99,7 @@ const ModalCloseButton = styled.span`
   right: 1.5rem;
   font-size: 30px;
   cursor: pointer;
+  z-index: 99;
 
   &.material-symbols-outlined {
     font-variation-settings:
