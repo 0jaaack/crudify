@@ -1,3 +1,4 @@
+import THEME from "crudify-service/dashboard/src/constants/theme";
 import React, { useState, createContext, useContext, useCallback } from "react";
 import ReactDOM from "react-dom";
 import styled from "styled-components";
@@ -33,7 +34,7 @@ export function ToastProvider({ children }) {
         setToastmessages(toastmessages => toastmessages.slice(1));
       }, 5000);
     },
-    [toastmessages],
+    [setToastmessages],
   );
 
   return (
@@ -71,15 +72,15 @@ const MessageBubble = styled.p`
   max-width: 100%;
   margin-bottom: 0.5rem;
   padding: 0.8rem 1rem;
-  background: #1C1C1C;
-  color: #E5E5E5;
+  background: ${THEME.YELLOW};
+  color: ${THEME.BLACK};
   font-size: 0.9rem;
   white-space: pre-line;
   border-radius: 0.6rem;
-  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+  box-shadow: ${THEME.BOX_SHODOW};
   animation-name: slideIn;
   animation-delay: 0s;
-  animation-duration: 1.2s;
+  animation-duration: 1s;
 
   @keyframes slideIn {
     from {

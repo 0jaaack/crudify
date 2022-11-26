@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import THEME from "../constants/theme";
 
 function Header() {
   return (
@@ -10,7 +11,6 @@ function Header() {
     </Wrapper>
   );
 }
-
 
 const Wrapper = styled.header`
   display: flex;
@@ -24,6 +24,7 @@ const Logo = styled.span`
   font-style: italic;
   font-weight: 700;
   user-select: none;
+  color: #ffffff;
 
   &::before {
     content: "";
@@ -32,7 +33,7 @@ const Logo = styled.span`
     top: 15px;
     width: 15px;
     height: 15px;
-    background: #1BCC5A;
+    background: ${THEME.GREEN};
     border-radius: 50%;
   }
 `;

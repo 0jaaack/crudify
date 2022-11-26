@@ -3,13 +3,10 @@ import styled from "styled-components";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import Header from "../components/Header";
-import SideBar from "../components/SideBar";
-import Home from "../components/Home";
-import Contents from "../components/Contents";
-import Types from "../components/Types";
-import Endpoints from "../components/Endpoints";
-import Log from "../components/Log";
-import Settings from "../components/Settings";
+import SideBar from "../components/SideBarWindow";
+import Home from "../components/HomeWindow";
+import Types from "../components/TypesWindow";
+import EndpointsWindow from "../components/EndpointsWindow";
 
 function App() {
   return (
@@ -20,11 +17,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate to="/home" />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/models/:model/contents" element={<Contents />} />
-          <Route path="/models/:model/types" element={<Types />} />
-          <Route path="/models/:model/endpoints" element={<Endpoints />} />
-          <Route path="/log" element={<Log />} />
-          <Route path="/settings" element={<Settings />} />
+          <Route path="/collections/:collection/model" element={<Types />} />
+          <Route path="/collections/:collection/api" element={<EndpointsWindow />} />
         </Routes>
       </MainSection>
     </Wrapper>

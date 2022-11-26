@@ -1,14 +1,8 @@
-const webpack = require("webpack");
-const WebpackDevServer = require("webpack-dev-server");
-const webpackConfiguration = require("../webpack.config");
-
-const compiler = webpack(webpackConfiguration);
-const server = new WebpackDevServer({ ...webpackConfiguration.devServer, open: true }, compiler);
+const WebServerService = require("../services/webServer");
 
 const manage = async () => {
-  console.log("start web server");
-
-  await server.start();
+  const webServer = new WebServerService();
+  await webServer.start();
 };
 
 module.exports = manage;
