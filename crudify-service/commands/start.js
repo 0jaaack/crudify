@@ -1,10 +1,9 @@
-const path = require("path");
 const cluster = require("cluster");
-const chokidar = require("chokidar");
-
 const spawn = require("child_process").spawn;
-
-const ServerService = require("../services/server");
+const path = require("path");
+const chokidar = require("chokidar");
+const log = require("../utils/logger");
+const Server = require("../server");
 
 function start() {
   if (cluster.isPrimary) {
@@ -15,6 +14,11 @@ function start() {
 }
 
 function primaryProcess() {
+  const process = spawn("npm", ["run", "manage"], { stdio: "inherit" });
+  process.on("error", () => {
+    throw new Error("대시보드를 연결하는 중, 에러가 발생하였습니다.");
+  });
+
   cluster.on("message", async (worker, message) => {
     switch (message) {
       case "reload":
@@ -33,32 +37,32 @@ function primaryProcess() {
   });
 
   cluster.fork();
-
-  const process = spawn("npm", ["run", "manage"], { stdio: "inherit" });
-
-  process.on("error", () => {
-    throw new Error("대시보드를 연결하는 중, 에러가 발생하였습니다.");
-  });
 }
 
 async function workerProcess() {
   const project = {
-    port: 7286,
+    port: 8080,
     path: process.cwd(),
   };
-  const server = new ServerService(project);
-  const watcher = chokidar.watch(path.join(project.path, "config"), {
+  const server = new Server(project);
+  const watcher = chokidar.watch(path.join(project.path), {
     ignoreInitial: true,
+    ignored: [
+      /(^|[/\\])\../,
+      "**/node_modules",
+      "**/node_modules/**",
+    ]
   });
 
   await server.start();
 
-  console.log("서버를 여는 데에 성공했습니다.");
+  log.info("###### 서버를 시작합니다 ######");
+
   console.log();
-  console.log(`  localhost:/${project.port}`);
+  console.log(`  http://localhost:/${project.port}`);
   console.log("  으로 접속하여 서버를 확인해볼 수 있어요.");
   console.log();
-  console.log(`  localhost:/${project.port}/dashboard`);
+  console.log(`  http://localhost:/${project.port}/manage`);
   console.log(`  으로 접속하여 서버를 관리할 수 있습니다!`);
   console.log();
 
@@ -70,6 +74,7 @@ async function workerProcess() {
   process.on("message", (message) => {
     switch (message) {
       case "kill":
+        console.log("변경사항을 반영하여, 서버를 재시작하겠습니다.");
         process.send("killed");
         process.exit(1);
         break;
