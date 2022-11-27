@@ -40,8 +40,23 @@ API Server를 구축하기 어려운 사람들을 위해, Dashboard에서 서버
   ### 동작 화면
   
   </summary>
-  
-  <br>
+<br>
+
+**프로젝트 설치 화면**<br>
+<br>
+<img width="600" alt="Screenshot 2022-11-27 at 23 31 20" src="https://user-images.githubusercontent.com/79369983/204140697-6f03c737-7e8b-438f-b549-3871e07f5d1e.png">
+<br>
+
+**Model 설정**<br>
+<br>
+<img width="600" alt="Screenshot 2022-11-27 at 23 35 00" src="https://user-images.githubusercontent.com/79369983/204140884-fc850e7a-20f2-443a-9852-9c66749f7f0d.png">
+<br>
+
+**API 설정**<br>
+<br>
+<img width="600" alt="Screenshot 2022-11-27 at 23 35 11" src="https://user-images.githubusercontent.com/79369983/204140927-dd557923-80a6-44d4-ac4f-583dac934f43.png">
+
+<br>
   
 </details>
 
