@@ -1,9 +1,13 @@
-import CONFIG from "crudify-service/dashboard/src/constants/config";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
-import FrameWindow from "./FrameWindow";
-import CreateCollectionModal from "./CollectionCreationModal";
-import THEME from "../constants/theme";
+
+import BarButton from "../atoms/BarButton";
+import Window from "../atoms/Window";
+import CreateCollectionModal from "../windows/CollectionCreationModal";
+
+// hook으로 정리 예정
+import { useState, useEffect } from "react";
+import CONFIG from "crudify-service/dashboard/src/constants/config";
 import { useToast } from "crudify-service/dashboard/src/hooks/useToast";
 import { useModal } from "crudify-service/dashboard/src/hooks/useModal";
 
@@ -16,12 +20,12 @@ function Home() {
     (async () => {
       try {
         const response = await fetch(`${CONFIG.CRUDIFY_URL}/_dashboard/health`);
-        const { data } = await response.json();
+        const result = await response.json();
 
-        setIsConnected(!!data);
+        setIsConnected(!!result?.data);
       } catch {
         toast("서버와의 연결에 실패하였습니다.");
-        setIsConnected(!!data);
+        setIsConnected(!!result?.data);
       }
     })();
   }, [setIsConnected]);
@@ -30,8 +34,12 @@ function Home() {
     ? "Hello Crudify World!"
     : "Server Not Connected!";
 
+  const handleCreateModal = () => {
+    modal(<CreateCollectionModal />);
+  };
+
   return (
-    <FrameWindow>
+    <Container>
       <HomeHeader>
         <HomeTitle>{title}</HomeTitle>
         <HomeDescription>
@@ -39,14 +47,30 @@ function Home() {
           <span>이제 새로운 컬렉션을 만들고, Endpoint를 연결해볼 수 있어요!</span>
         </HomeDescription>
       </HomeHeader>
-      <QuickButton onClick={() => modal(<CreateCollectionModal />)}>
-        새로운 컬렉션 생성
-      </QuickButton>
-      <QuickButton>Endpoint 관리</QuickButton>
-      <QuickButton>README</QuickButton>
-    </FrameWindow>
-  )
+      <QuickMenu>
+        <BarButton onClick={handleCreateModal}>
+          새로운 컬렉션 생성
+        </BarButton>
+        <BarButton>Endpoint 관리</BarButton>
+        <BarButton>README</BarButton>
+      </QuickMenu>
+    </Container>
+  );
 }
+
+function Container({ children }) {
+  return (
+    <Window>
+      <HomeContainer>
+        {children}
+      </HomeContainer>
+    </Window>
+  );
+}
+
+const HomeContainer = styled.div`
+  width: 80%;
+`;
 
 const HomeHeader = styled.section`
   margin-bottom: 2rem;
@@ -64,23 +88,10 @@ const HomeDescription = styled.p`
   white-space: pre;
 `;
 
-const QuickButton = styled.button`
-  display: block;
-  width: 80%;
-  height: 3rem;
-  margin: 1.2rem 0;
-  padding-left: 1rem;
-  background: ${THEME.NAVY};
-  color: #E5E5E5;
-  text-align: left;
-  font-size: 1rem;
-  border-radius: 0.5rem;
-  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
-
-  &:hover {
-    background: rgba(0, 0, 0, 0.1);
-    color: #000000;
-  }
+const QuickMenu = styled.li`
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem 0;
 `;
 
 export default Home;

@@ -1,19 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React from "react";
 import styled from "styled-components";
 
+// hook으로 정리 예정
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import CONFIG from "crudify-service/dashboard/src/constants/config";
 import TEXT from "crudify-service/dashboard/src/constants/text";
-import THEME from "crudify-service/dashboard/src/constants/theme";
 import { useModal } from "crudify-service/dashboard/src/hooks/useModal";
 import { useToast } from "crudify-service/dashboard/src/hooks/useToast";
 import capitalize from "crudify-service/dashboard/src/utils/captalize";
-import FrameWindow from "crudify-service/dashboard/src/components/FrameWindow";
-import ModelNavBar from "crudify-service/dashboard/src/components/ModelNavBar";
-import Endpoint from "crudify-service/dashboard/src/components/Endpoint";
-import ServerReloadModal from "crudify-service/dashboard/src/components/ServerReloadModal";
+import ServerReloadModal from "crudify-service/dashboard/src/components/windows/ServerReloadingModal";
 
-function EndpointsWindow() {
+import Button from "crudify-service/dashboard/src/components/atoms/Button";
+import Window from "crudify-service/dashboard/src/components/atoms/Window";
+import CollectionHeader from "crudify-service/dashboard/src/components/Items/CollecionHeader";
+import Endpoint from "crudify-service/dashboard/src/components/Items/EndpointItem";
+import THEME from "crudify-service/dashboard/src/constants/theme";
+
+function ApiWindow() {
   const [endpoints, setEndpoints] = useState([]);
   const [configData, setConfigData] = useState([]);
   const { collection } = useParams();
@@ -60,46 +64,59 @@ function EndpointsWindow() {
   };
 
   return (
-    <FrameWindow>
-      <PageHeader>
-        <ModelNavBar />
-        {isModified && <SaveButton onClick={handleSave}>변경사항 저장</SaveButton>}
-      </PageHeader>
+    <Window>
+      <CollectionHeader>
+        {isModified && (
+          <SaveButton
+            onButtonClick={handleSave}
+          >
+            변경사항 저장
+          </SaveButton>
+        )}
+      </CollectionHeader>
       <EndpointList>
         {endpoints.map((endpoint) => (
-          <Endpoint
-            key={endpoint.type}
-            endpoint={endpoint}
-            isChecked={endpoint.permission !== "notAllowed"}
-            onEndpointsChange={setEndpoints}
-          />
+          // <Endpoint
+          //   key={endpoint.type}
+          //   endpoint={endpoint}
+          //   isChecked={endpoint.permission !== "notAllowed"}
+          //   onEndpointsChange={setEndpoints}
+          // />
+          <Box>
+            {endpoint.type}
+          </Box>
         ))}
       </EndpointList>
-    </FrameWindow>
+    </Window>
   );
 }
 
-const PageHeader = styled.div`
-  display: flex;
-  width: 80%;
-  justify-content: space-between;
-`;
-
 const EndpointList = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
   width: 100%;
   margin-top: 2rem;
   padding-bottom: 2rem;
 `;
 
-const SaveButton = styled.button`
-  font-weight: 500;
-  font-size: 1rem;
-  width: 8rem;
-  height: 3rem;
-  justify-self: center;
+const Box = styled.div`
+  background: ${THEME.COLORS.DARK_NAVY};
+  width: 32%;
+  height: 13rem;
+  color: red;
   border-radius: 0.5rem;
-  background-color: ${THEME.GREEN};
-  margin-top: 2rem;
+  cursor: pointer;
+  box-shadow: ${THEME.BOX_SHADOW};
+
+  &:hover {
+    transform: scale(1.02);
+  }
 `;
 
-export default EndpointsWindow;
+const SaveButton = styled(Button)`
+  background: ${THEME.COLORS.GREEN};
+  color: ${THEME.COLORS.BLACK};
+`;
+
+export default ApiWindow;

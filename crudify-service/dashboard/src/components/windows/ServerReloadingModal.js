@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import CONFIG from "crudify-service/dashboard/src/constants/config";
-import LoadingSpinner from "crudify-service/dashboard/src/components/LoadingSpinner";
+import LoadingSpinner from "crudify-service/dashboard/src/components/atoms/Spinner";
 import { useToast } from "crudify-service/dashboard/src/hooks/useToast";
 
 function ServerReloadModal({ closeModal, successNext }) {
@@ -16,12 +16,13 @@ function ServerReloadModal({ closeModal, successNext }) {
         if (data === "ok") {
           toast("수정사항을 반영해, 서버를 재시작하였습니다!");
           closeModal();
+
           if (!!successNext) {
-            successNext();
+            return successNext();
           }
         }
-      } catch (error) {
-        console.error(error);
+      } catch {
+        return;
       }
     }, 100);
 
@@ -39,11 +40,11 @@ function ServerReloadModal({ closeModal, successNext }) {
 }
 
 const Container = styled.div`
-  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
   width: 28rem;
   height: 15rem;
 `;

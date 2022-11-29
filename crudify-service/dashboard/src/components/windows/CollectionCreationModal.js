@@ -1,14 +1,18 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import { useModal } from "crudify-service/dashboard/src/hooks/useModal";
-import { useSetCollections } from "../hooks/useCollections";
 import styled from "styled-components";
 
-import CONFIG from "../constants/config";
-import ServerReloadModal from "crudify-service/dashboard/src/components/ServerReloadModal";
-import THEME from "../constants/theme";
+import THEME from "../../constants/theme";
+import Button from "../atoms/Button";
 
-function CreateCollectionModal({ closeModal }) {
+// hook으로 정리 예정
+import { useNavigate } from "react-router-dom";
+import { useModal } from "crudify-service/dashboard/src/hooks/useModal";
+import { useSetCollections } from "../../hooks/useCollections";
+import CONFIG from "../../constants/config";
+import ServerReloadModal from "crudify-service/dashboard/src/components/windows/ServerReloadingModal";
+
+
+function CreateCollectionModal() {
   const setCollections = useSetCollections();
   const navigate = useNavigate();
   const modal = useModal();
@@ -41,9 +45,7 @@ function CreateCollectionModal({ closeModal }) {
     <CreateCollectionForm onSubmit={handleCreateClick}>
       <Title>컬렉션 생성하기</Title>
       <CollectionNameInput type="text" name="collectionName"/>
-      <CreationButton>
-        생성하기
-      </CreationButton>
+      <Button>생성하기</Button>
     </CreateCollectionForm>
   );
 }
@@ -61,18 +63,19 @@ const CreateCollectionForm = styled.form`
 const CollectionNameInput = styled.input`
   width: 50%;
   height: 3rem;
-  font-size: 1.2rem;
-  background: transparent;
   border: none;
-  border-bottom: 1px solid ${THEME.BLACK};
-  outline: none;
+  border-bottom: 1px solid ${THEME.COLORS.BLACK};
+  background: transparent;
+  font-size: 1.2rem;
+
+  &:focus {
+    border-bottom: 1.5px solid ${THEME.COLORS.BLACK};
+  }
 `;
 
 const Title = styled.h1`
   font-size: 1.5rem;
   margin-top: 1rem;
 `;
-
-const CreationButton = styled.button``;
 
 export default CreateCollectionModal;

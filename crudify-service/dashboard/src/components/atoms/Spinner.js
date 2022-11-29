@@ -1,6 +1,6 @@
 import React from "react";
 
-function LoadingSpinner() {
+function Spinner({ size, speed }) {
   return (
     <div class="loader loader--style1" title="0">
       <svg
@@ -10,8 +10,8 @@ function LoadingSpinner() {
         xmlns:xlink="http://www.w3.org/1999/xlink"
         x="0px"
         y="0px"
-        width="40px"
-        height="40px"
+        width={`${size ?? 3}rem`}
+        height={`${size ?? 3}rem`}
         viewBox="0 0 40 40"
         enable-background="new 0 0 40 40"
         xml:space="preserve"
@@ -33,7 +33,7 @@ function LoadingSpinner() {
             type="rotate"
             from="0 20 20"
             to="360 20 20"
-            dur="0.5s"
+            dur={`${speed ?? 0.5}s`}
             repeatCount="indefinite"
           />
         </path>
@@ -42,4 +42,4 @@ function LoadingSpinner() {
   );
 }
 
-export default LoadingSpinner;
+export default Spinner;

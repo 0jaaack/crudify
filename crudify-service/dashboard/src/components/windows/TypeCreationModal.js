@@ -1,12 +1,12 @@
-import THEME from "crudify-service/dashboard/src/constants/theme";
 import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 
-import NameField from "crudify-service/dashboard/src/components/NameField";
-import SelectionField from "crudify-service/dashboard/src/components/SelectionField";
-import AdvancedOptionsField from "crudify-service/dashboard/src/components/AdvancedOptionsField";
+import Button from "../atoms/Button";
+import NameField from "../items/NameField";
+import SelectionField from "../items/SelectionField";
+import AdvancedOptionsField from "../items/AdvancedOptionsField";
 
-function TypeCreationModal({ createType, closeModal }) {
+function TypeCreationModal({ createNewType, closeModal }) {
   const [typeConfig, setTypeConfig] = useState({
     name: "",
     selection: null,
@@ -29,13 +29,16 @@ function TypeCreationModal({ createType, closeModal }) {
       }
     };
 
-    createType(type);
+    createNewType(type);
 
     return closeModal();
   };
 
   return (
     <Container>
+      <Title>
+        새로운 타입 생성
+      </Title>
       <NameField
         onNameChange={(name) => handleTypeOptionChange({ name })}
       />
@@ -44,37 +47,37 @@ function TypeCreationModal({ createType, closeModal }) {
         onSelectionChange={(selection) => handleTypeOptionChange({ selection })}
       />
       <AdvancedOptionsField
-        onAdvanecdOptionChange={(options) => handleTypeOptionChange({ options })}
+        onAdvanecdOptionsChange={(options) => handleTypeOptionChange({ options })}
       />
-      <CreationButton
-        onClick={handleTypeCreate}
-      >
-        생성하기
-      </CreationButton>
+      <div>
+        <CreationButton
+          onClick={handleTypeCreate}
+        >
+          생성하기
+        </CreationButton>
+      </div>
     </Container>
   );
 }
 
 const Container = styled.div`
   display: flex;
-  position: relative;
   flex-direction: column;
   justify-content: space-between;
-  padding-bottom: 3rem;
-  width: 40rem;
-  padding: 5rem;
   gap: 2rem 0;
+  position: relative;
+  width: 40rem;
+  padding: 4rem 4rem 2rem;
 `;
 
-const CreationButton = styled.button`
-  background: ${THEME.GREEN};
-  border-radius: 0.5rem;
-  height: 3rem;
-  width: 7rem;
-  font-weight: 500;
-  position: absolute;
-  bottom: 2rem;
-  left: calc(50% - 3.5rem);
+const Title = styled.h1`
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+`;
+
+const CreationButton = styled(Button)`
+  display: block;
   margin: 0 auto;
 `;
 

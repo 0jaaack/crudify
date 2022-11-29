@@ -1,36 +1,28 @@
 import React from "react";
 import styled from "styled-components";
-import THEME from "../constants/theme";
+import THEME from "crudify-service/dashboard/src/constants/theme";
 
-function Header() {
+function Logo() {
   return (
-    <Wrapper>
-      <Logo>
-        CRUDIFY
-      </Logo>
-    </Wrapper>
+    <Container>
+      Crudify
+    </Container>
   );
 }
 
-const Wrapper = styled.header`
-  display: flex;
-  align-items: center;
-  height: 13vh;
-`;
-
-const Logo = styled.span`
+const Container = styled.span`
   position: relative;
+  color: ${THEME.COLORS.WHITE};
   font-size: 3.8rem;
   font-style: italic;
   font-weight: 700;
-  user-select: none;
-  color: #ffffff;
+  text-transform: uppercase;
 
   &::before {
     content: "";
     position: absolute;
-    right: -35px;
     top: 15px;
+    right: -35px;
     width: 15px;
     height: 15px;
     background: ${THEME.GREEN};
@@ -38,4 +30,4 @@ const Logo = styled.span`
   }
 `;
 
-export default Header;
+export default Logo;

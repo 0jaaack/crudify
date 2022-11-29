@@ -6,6 +6,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    user-select: none;
   }
 
   body {
@@ -28,6 +29,10 @@ const GlobalStyle = createGlobalStyle`
     border: none;
     color: inherit;
     cursor: pointer;
+    outline: none;
+  }
+
+  input {
     outline: none;
   }
 
