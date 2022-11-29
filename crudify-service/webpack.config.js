@@ -39,7 +39,8 @@ module.exports = {
     },
     compress: true,
     port: 7286,
-    historyApiFallback: true
+    historyApiFallback: true,
+    open: true,
   },
   plugins: [
     new ReactRefreshWebpackPlugin(),

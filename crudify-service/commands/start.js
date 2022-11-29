@@ -14,7 +14,7 @@ function start() {
 }
 
 function primaryProcess() {
-  const process = spawn("npm", ["run", "manage"], { stdio: "inherit" });
+  const process = spawn("npm", ["run", "manage"]);
   process.on("error", () => {
     throw new Error("대시보드를 연결하는 중, 에러가 발생하였습니다.");
   });
@@ -62,7 +62,7 @@ async function workerProcess() {
   console.log(`  http://localhost:/${project.port}`);
   console.log("  으로 접속하여 서버를 확인해볼 수 있어요.");
   console.log();
-  console.log(`  http://localhost:/${project.port}/manage`);
+  console.log(`  http://localhost:/7286`);
   console.log(`  으로 접속하여 서버를 관리할 수 있습니다!`);
   console.log();
 

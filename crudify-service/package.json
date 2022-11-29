@@ -1,6 +1,6 @@
 {
   "name": "crudify-service",
-  "version": "0.1.7",
+  "version": "0.1.22",
   "description": "crudify는 누구나 쉽게 api server를 만들어 볼 수 있는 패키지입니다.",
   "author": {
     "name": "공재혁",

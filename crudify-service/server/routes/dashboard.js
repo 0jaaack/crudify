@@ -67,7 +67,7 @@ router.get("/apis", async (req, res) => {
 
 router.put("/apis", async (req, res) => {
   const { api, endpoints } = req.body;
-  await fileService.UpdateJsonFile("apis", api, endpoints);
+  await fileService.updateJsonFile("apis", api, endpoints);
 
   return res.json({ data: "success" });
 });

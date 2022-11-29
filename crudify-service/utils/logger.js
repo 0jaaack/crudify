@@ -3,7 +3,7 @@ const winston = require("winston");
 require("winston-daily-rotate-file");
 
 const loggerLevel = process.env === "development" ? "debug" : "info";
-const logsPath = path.join(__dirname, "..", "..", "..", "logs");
+const logsPath = path.join(__dirname, "..", "logs");
 
 const logger = winston.createLogger({
   level: loggerLevel,

@@ -2,7 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const proxy = require("express-http-proxy");
 const cors = require("cors");
-const log = require("crudify-service/utils/logger");
+const log = require("../../utils/logger");
 
 const morganLogFormat = ":date[iso] :method :url :status (:response-time[digits]ms)";
 
