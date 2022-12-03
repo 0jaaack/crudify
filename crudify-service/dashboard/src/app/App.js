@@ -2,30 +2,31 @@ import React from "react";
 import styled from "styled-components";
 import { Routes, Route, Navigate } from "react-router-dom";
 
-import Header from "../components/Header";
-import SideBar from "../components/SideBarWindow";
-import Home from "../components/HomeWindow";
-import Types from "../components/TypesWindow";
-import EndpointsWindow from "../components/EndpointsWindow";
+import Header from "../components/layouts/Header";
+import SideBar from "../components/layouts/SideBar";
+import HomeWindow from "../components/windows/HomeWindow";
+import ModelWindow from "../components/windows/ModelWindow";
+import ApiWindow from "../components/windows/ApiWindow";
 
 function App() {
   return (
-    <Wrapper>
+    <Container>
       <Header />
-      <MainSection>
+      <Main>
         <SideBar />
         <Routes>
           <Route path="/" element={<Navigate to="/home" />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/collections/:collection/model" element={<Types />} />
-          <Route path="/collections/:collection/api" element={<EndpointsWindow />} />
+          <Route path="/home" element={<HomeWindow />} />
+          <Route path="/collections/:collection" element={<Navigate to="./model" />} />
+          <Route path="/collections/:collection/model" element={<ModelWindow />} />
+          <Route path="/collections/:collection/api" element={<ApiWindow />} />
         </Routes>
-      </MainSection>
-    </Wrapper>
+      </Main>
+    </Container>
   );
 }
 
-const Wrapper = styled.section`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100vw;
@@ -34,7 +35,7 @@ const Wrapper = styled.section`
   overflow: hidden;
 `;
 
-const MainSection = styled.section`
+const Main = styled.section`
   display: flex;
   width: 100%;
   height: 100%;

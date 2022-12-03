@@ -1,16 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import THEME from "crudify-service/dashboard/src/constants/theme";
 
-const typeSelectionList = ["text", "number", "email", "boolean", "date", "list"];
-const GOOGLE_ICON = {
-  text: "notes",
-  number: "notes",
-  email: "alternate_email",
-  boolean: "notes",
-  date: "calendar_month",
-  list: "notes"
-};
+import CONFIG from "../../constants/config";
+import THEME from "../../constants/theme";
+import ICON_TYPES from "../../constants/iconTypes";
+import Icon from "../atoms/Icon";
 
 function SelectionField({ onSelectionChange }) {
   const [currentSelection, setCurrentSelection] = useState(null);
@@ -22,14 +16,12 @@ function SelectionField({ onSelectionChange }) {
   return (
     <TypeSelectionField>
       <legend>타입 선택</legend>
-      {typeSelectionList.map((selection) => (
+      {CONFIG.SELECTIONS.map((selection) => (
         <TypeSelection
           key={selection}
           isHighlighted={currentSelection === selection}
         >
-          <TypeIcon className="material-symbols-outlined">
-            {GOOGLE_ICON[selection]}
-          </TypeIcon>
+          <Icon type={ICON_TYPES[selection.toUpperCase()]} />
           <CheckInput
             type="radio"
             onClick={() => handleSelectionClick(selection)}
@@ -42,36 +34,32 @@ function SelectionField({ onSelectionChange }) {
 }
 
 const TypeSelectionField = styled.fieldset`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem;
   max-width: 100%;
   padding-top: 1rem;
   border: none;
   font-weight: 500;
-  display: flex;
-  gap: 0.2rem;
-  box-sizing: border-box;
-  flex-wrap: wrap;
 `;
 
 const TypeSelection = styled.label`
-  width: 32%;
-  height: 3rem;
-  color: ${({ isHighlighted }) => isHighlighted ? THEME.BLACK : THEME.WHITE};
-  border-radius: 0.5rem;
-  background: ${({ isHighlighted }) => isHighlighted ? THEME.GREEN : THEME.NAVY};
-  text-align: center;
-  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 0 0.2rem;
+  width: 32%;
+  height: 3rem;
+  background: ${({ isHighlighted }) => isHighlighted ? THEME.COLORS.GREEN : THEME.COLORS.NAVY};
+  color: ${({ isHighlighted }) => isHighlighted ? THEME.COLORS.BLACK : THEME.COLORS.WHITE};
   font-size: 1.2rem;
+  text-align: center;
+  border-radius: 0.5rem;
+  cursor: pointer;
 `;
 
 const CheckInput = styled.input`
   display: none;
-`;
-
-const TypeIcon = styled.span`
-  margin-right: 0.1rem;
 `;
 
 export default SelectionField;

@@ -6,48 +6,48 @@ async function loadRouters(crudify) {
   const apiCollections = await fileService.getJsonFilesAll("apis");
   const generateHttpMethod = (method, ...args) => {
     switch(method) {
-      case "get":
+      case "GET":
         return crudify.app.get(...args);
-      case "post":
+      case "POST":
         return crudify.app.post(...args);
-      case "put":
+      case "PUT":
         return crudify.app.put(...args);
-      case "delete":
+      case "DELETE":
         return crudify.app.delete(...args);
       default:
         return;
     }
   };
-  const generateRoute = (api) => {
-    switch (api.type) {
+  const generateRoute = (type, model) => {
+    switch (type) {
       case "create":
         return async (req, res) => {
-          await model.create(req.body);
-          return res.json({ result: "ok" });
+          const document = await model.create(req.body);
+          return res.json({ result: document });
         };
-      case "find":
+      case "findOne":
         return async (req, res) => {
-          const { id } = req.params;
-          const document = await model.findById(id).lean();
+          const { contentId } = req.params;
+          const document = await model.findById(contentId).lean();
 
           return res.json({ result: document });
         };
-      case "findAll":
+      case "find":
         return async (req, res) => {
           const documents = await model.find({}).lean();
           return res.json({ result: documents });
         };
       case "update":
         return async (req, res) => {
-          const { id } = req.params;
-          await model.findByIdAndUpdate(id, req.body);
+          const { contentId } = req.params;
+          await model.findByIdAndUpdate(contentId, req.body);
 
           return res.json({ result: "ok" });
         };
       case "delete":
         return async (req, res) => {
-          const { id } = req.params;
-          await model.findByIdAndRemove(id);
+          const { contentId } = req.params;
+          await model.findByIdAndRemove(contentId);
 
           return res.json({ result: "ok" });
         };
@@ -62,7 +62,8 @@ async function loadRouters(crudify) {
         return;
       }
 
-      const model = crudify.models[api.type];
+      const model = crudify.models[collection.name];
+
       generateHttpMethod(
         api.method,
         api.url,

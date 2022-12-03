@@ -1,31 +1,33 @@
-import React, { useState, createContext, useContext } from "react";
-
-const CollectionsContext = createContext();
-const SetCollectionsContext = createContext();
-
-export function CollectionsProvider({ children }) {
-  const [collections, setCollections] = useState([]);
-
-  return (
-    <CollectionsContext.Provider value={collections}>
-      <SetCollectionsContext.Provider value={setCollections}>
-        {children}
-      </SetCollectionsContext.Provider>
-    </CollectionsContext.Provider>
-  );
-}
+import { useQuery, useMutation } from "react-query";
+import CONFIG from "../../src/constants/config";
 
 export function useCollections() {
-  return useContext(CollectionsContext);
+  const collections = useQuery(["collections"], async () => {
+    const response = await fetch(`${CONFIG.CRUDIFY_URL}/_dashboard/collections`);
+    const { data: collections } = await response.json();
+
+    return collections;
+  }, {
+    suspense: true,
+    staleTime: CONFIG.QUERY_STALE_TIME,
+    refetchOnWindowFocus: true
+  });
+
+  return collections.data;
 }
 
-export function useSetCollections() {
-  return useContext(SetCollectionsContext);
-}
+export function useAddCollection() {
+  const mutation = useMutation(async (newCollectionName) => {
+    return await fetch(`${CONFIG.CRUDIFY_URL}/_dashboard/collections`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: newCollectionName
+      }),
+    });
+  });
 
-export function useCollectionsState() {
-  const collections = useCollections();
-  const setCollections = useSetCollections();
-
-  return [collections, setCollections];
+  return mutation.mutate;
 }

@@ -15,6 +15,7 @@ class FileService {
       await fs.mkdir(this.projectPath, { recursive: true });
       await fs.mkdir(path.join(this.projectPath, "config"), { recursive: true });
       await fs.mkdir(path.join(this.projectPath, "models"), { recursive: true });
+      await fs.mkdir(path.join(this.projectPath, "apis"), { recursive: true });
     } catch {
       throw new Error("프로젝트 폴더 생성 중 오류가 발생하였습니다.");
     }

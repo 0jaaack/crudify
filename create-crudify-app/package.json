@@ -1,6 +1,6 @@
 {
   "name": "create-crudify-app",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "description": "create-crudify-app은 crudify의 기본적인 설정을 도와주는 module입니다.",
   "author": {
     "name": "공재혁",

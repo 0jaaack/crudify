@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import THEME from "../../constants/theme";
 
-function FrameWindow({ children }) {
+function Window({ children }) {
   return (
     <Container>
       <Frame>
@@ -15,7 +16,7 @@ const Container = styled.section`
   position: relative;
   width: 100%;
   height: 100%;
-  background: #e5e5e5;
+  background: ${THEME.COLORS.WHITE};
   border-radius: 0.9rem;
   overflow: scroll;
   scrollbar-width: none;
@@ -35,4 +36,4 @@ const Frame = styled.section`
   top: 0;
 `;
 
-export default FrameWindow;
+export default Window;

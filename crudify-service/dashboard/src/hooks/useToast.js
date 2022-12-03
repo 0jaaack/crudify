@@ -1,7 +1,7 @@
-import THEME from "crudify-service/dashboard/src/constants/theme";
 import React, { useState, createContext, useContext, useCallback } from "react";
 import ReactDOM from "react-dom";
 import styled from "styled-components";
+import THEME from "../constants/theme";
 
 const ToastContext = createContext();
 
@@ -15,7 +15,7 @@ function ToastMessage({ messages }) {
     <ToastPortal>
       <MessageList>
         {messages.map((message) => (
-          <MessageBubble>
+          <MessageBubble key={message}>
             {message}
           </MessageBubble>
         ))}

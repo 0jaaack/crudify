@@ -1,6 +1,7 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
 import ReactDOM from "react-dom";
 import styled from "styled-components";
+import THEME from "../constants/theme";
 
 const ModalContext = createContext();
 
@@ -34,14 +35,16 @@ function Modal({ element, closeModal }) {
 
   return (
     <ModalPortal>
-      <ModalBackground onClick={handleOuterClick}>
-        <ModalWindow>
-          <ModalCloseButton onClick={closeModal} className="material-symbols-outlined">
-            close
-          </ModalCloseButton>
-          {React.cloneElement(element, { closeModal })}
-        </ModalWindow>
-      </ModalBackground>
+      <React.Suspense>
+        <ModalBackground onClick={handleOuterClick}>
+          <ModalWindow>
+            <ModalCloseButton onClick={closeModal} className="material-symbols-outlined">
+              close
+            </ModalCloseButton>
+            {React.cloneElement(element, { closeModal })}
+          </ModalWindow>
+        </ModalBackground>
+      </React.Suspense>
     </ModalPortal>
   );
 }
@@ -87,10 +90,25 @@ const ModalBackground = styled.div`
 const ModalWindow = styled.div`
   min-width: 200px;
   min-height: 200px;
-  background: #e5e5e5;
+  background: ${THEME.COLORS.WHITE};
   border-radius: 0.9rem;
   position: relative;
   z-index: 10;
+  animation-name: slideIn, slideOut;
+  animation-delay: 0s, 3s;
+  animation-duration: 0.2s;
+
+  @keyframes slideIn {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
 `;
 
 const ModalCloseButton = styled.span`

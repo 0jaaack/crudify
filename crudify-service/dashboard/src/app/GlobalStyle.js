@@ -6,11 +6,12 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    user-select: none;
   }
 
   body {
-    background: ${THEME.BACKGROUND};
-    color: ${THEME.BLACK};
+    background: ${THEME.COLORS.BACKGROUND};
+    color: ${THEME.COLORS.BLACK};
     font: 300 18px "IBM Plex Sans KR", sans-serif;
   }
 
@@ -28,6 +29,10 @@ const GlobalStyle = createGlobalStyle`
     border: none;
     color: inherit;
     cursor: pointer;
+    outline: none;
+  }
+
+  input {
     outline: none;
   }
 
