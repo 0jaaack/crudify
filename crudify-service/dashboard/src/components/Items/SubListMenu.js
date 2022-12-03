@@ -13,8 +13,6 @@ function SubListMenu({ title, list, current }) {
     navigate(`/${title}/${destination}/model`.toLowerCase());
   };
 
-  console.log(current);
-
   return (
     <Container>
       {captalize(title)}
@@ -56,7 +54,7 @@ const SubItem = styled.li`
   }
 `;
 
-const Container = styled.li`
+const Container = styled.div`
   width: 100%;
   padding-left: 1rem;
 `;

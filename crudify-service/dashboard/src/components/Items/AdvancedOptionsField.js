@@ -4,7 +4,6 @@ import THEME from "../../constants/theme";
 
 function AdvancedOptionsField({ onAdvanecdOptionsChange }) {
   const [options, setOptions] = useState({});
-  // const [showAdvancedOption, setShowAdvancedOption] = useState(false);
 
   const toggleOptions = () => {
     setOptions({});
@@ -74,8 +73,8 @@ const AdvancedOptions = styled.div`
 const OptionField = styled.label`
   width: 8rem;
   height: 3rem;
-  background: ${({ isChecked }) => isChecked ? THEME.GREEN : THEME.LIGHTER_BLACK};
-  color: ${({ isChecked }) => isChecked ? THEME.BLACK : THEME.WHITE};
+  background: ${({ isChecked }) => isChecked ? THEME.COLORS.GREEN : THEME.COLORS.LIGHTER_BLACK};
+  color: ${({ isChecked }) => isChecked ? THEME.COLORS.BLACK : THEME.COLORS.WHITE};
   line-height: 3rem;
   text-align: center;
   border-radius: 0.5rem;

@@ -2,9 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import THEME from "crudify-service/dashboard/src/constants/theme";
 
-function Logo() {
+function Logo({ isConnected }) {
   return (
-    <Container>
+    <Container isConnected={isConnected}>
       Crudify
     </Container>
   );
@@ -25,7 +25,7 @@ const Container = styled.span`
     right: -35px;
     width: 15px;
     height: 15px;
-    background: ${THEME.GREEN};
+    background: ${({ isConnected }) => isConnected ? THEME.COLORS.GREEN : THEME.COLORS.RED};
     border-radius: 50%;
   }
 `;

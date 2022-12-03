@@ -10,8 +10,8 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    background: ${THEME.BACKGROUND};
-    color: ${THEME.BLACK};
+    background: ${THEME.COLORS.BACKGROUND};
+    color: ${THEME.COLORS.BLACK};
     font: 300 18px "IBM Plex Sans KR", sans-serif;
   }
 

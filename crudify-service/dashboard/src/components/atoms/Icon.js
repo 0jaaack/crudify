@@ -3,7 +3,10 @@ import styled from "styled-components";
 
 function Icon({ type, size }) {
   return (
-    <IconSymbol size={size} className="material-symbols-outlined">
+    <IconSymbol
+      size={size}
+      className="material-symbols-outlined"
+    >
       {type}
     </IconSymbol>
   );

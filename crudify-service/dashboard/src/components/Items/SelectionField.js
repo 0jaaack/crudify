@@ -50,8 +50,8 @@ const TypeSelection = styled.label`
   gap: 0 0.2rem;
   width: 32%;
   height: 3rem;
-  background: ${({ isHighlighted }) => isHighlighted ? THEME.GREEN : THEME.NAVY};
-  color: ${({ isHighlighted }) => isHighlighted ? THEME.BLACK : THEME.WHITE};
+  background: ${({ isHighlighted }) => isHighlighted ? THEME.COLORS.GREEN : THEME.COLORS.NAVY};
+  color: ${({ isHighlighted }) => isHighlighted ? THEME.COLORS.BLACK : THEME.COLORS.WHITE};
   font-size: 1.2rem;
   text-align: center;
   border-radius: 0.5rem;

@@ -1,5 +1,5 @@
-import THEME from "crudify-service/dashboard/src/constants/theme";
 import styled from "styled-components";
+import THEME from "../../constants/theme";
 
 const BarButton = styled.button`
   display: block;
@@ -11,11 +11,11 @@ const BarButton = styled.button`
   text-align: left;
   font-size: 1rem;
   border-radius: 0.5rem;
-  box-shadow: ${THEME.BOX_SHODOW};
+  box-shadow: ${THEME.BOX_SHADOW};
 
   &:hover {
     background: rgba(0, 0, 0, 0.1);
-    color: #000000;
+    color: ${THEME.COLORS.BLACK};
   }
 `;
 

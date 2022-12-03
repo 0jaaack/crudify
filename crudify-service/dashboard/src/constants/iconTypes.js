@@ -7,7 +7,8 @@ const ICON_TYPES = {
   ID: "person",
   BOOLEAN: "toggle_off",
   UP: "arrow_drop_up",
-  DOMN: "arrow_drop_down"
+  DOMN: "arrow_drop_down",
+  COPY: "content_copy"
 };
 
 export default ICON_TYPES;
