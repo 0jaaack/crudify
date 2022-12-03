@@ -1,62 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { useParams } from "react-router-dom";
 
+import { useTypes, useUpdateTypes } from "../../hooks/useTypes";
+import { useModal } from "../../hooks/useModal";
+import { useToast } from "../../hooks/useToast";
 import THEME from "../../constants/theme";
 import Button from "../atoms/Button";
 import Window from "../atoms/Window";
 import TypeBar from "../Items/TypeBar";
 import CollectionHeader from "../Items/CollecionHeader";
 import TypeCreationModal from "./TypeCreationModal";
-
-// hook 정리 예정
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import CONFIG from "crudify-service/dashboard/src/constants/config";
-import { useModal } from "../../hooks/useModal";
-import { useToast } from "../../hooks/useToast";
-import capitalize from "../../utils/captalize";
 import ServerReloadModal from "./ServerReloadingModal";
 
 function ModelWindow() {
-  const [fieldList, setFieldList] = useState([]);
-  const [configData, setConfigData] = useState([]);
-  const { collection } = useParams();
   const toast = useToast();
   const modal = useModal();
-  const isModified = JSON.stringify(fieldList) !== JSON.stringify(configData);
+  const { collection } = useParams();
+  const [types, refetchTypes] = useTypes(collection);
+  const updateTypes = useUpdateTypes(collection);
+  const [modelData, setModelData] = useState(types);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const response = await fetch(`${CONFIG.CRUDIFY_URL}/_dashboard/models/?collection=${collection}`);
-        const { data: model } = await response.json();
-
-        setConfigData(model.data);
-        setFieldList(model.data);
-      } catch {
-        toast(`${capitalize(collection)} 모델의 타입 정보를 가져오지 못하였습니다...`);
-      }
-    })();
-  }, [collection, setFieldList]);
+  const isModified = JSON.stringify(types) !== JSON.stringify(modelData);
 
   const handleSave = async () => {
-    await fetch(`${CONFIG.CRUDIFY_URL}/_dashboard/models`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
+    updateTypes(modelData, {
+      onSuccess: () => {
+        return modal(
+          <ServerReloadModal
+            successNext={refetchTypes}
+          />
+        );
       },
-      body: JSON.stringify({
-        model: collection,
-        types: fieldList
-      }),
+      onError: () => {
+        return toast("타입 정보를 저장하지 못하였습니다.");
+      },
     });
-
-    modal(<ServerReloadModal />);
   };
 
   const handleCreateType = () => {
     const createNewType = (type) => {
-      return setFieldList(prev => prev.concat(type));
+      return setModelData(prev => prev.concat(type));
     };
 
     return modal(
@@ -79,7 +63,7 @@ function ModelWindow() {
         )}
       </CollectionHeader>
       <TypeList>
-        {fieldList.map(({ name, type }) => (
+        {types.map(({ name, type }) => (
           <TypeBar name={name} type={type} key={name} />
         ))}
       </TypeList>

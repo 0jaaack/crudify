@@ -1,11 +1,15 @@
 import React from "react";
 import styled from "styled-components";
+
+import { useCheckServer } from "../../hooks/useServerCheck";
 import Logo from "../atoms/Logo";
 
 function Header() {
+  const isHealthy = useCheckServer();
+
   return (
     <Container>
-      <Logo />
+      <Logo isConnected={isHealthy} />
     </Container>
   );
 }

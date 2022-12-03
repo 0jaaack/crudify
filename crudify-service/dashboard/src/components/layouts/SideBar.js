@@ -1,32 +1,19 @@
 import React from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
-import THEME from "../../constants/theme";
+import { useCollections } from "../../hooks/useCollections";
 import { useModal } from "../../hooks/useModal";
+import THEME from "../../constants/theme";
 import SubListMenu from "../Items/SubListMenu";
 import CollectionCreationModal from "../windows/CollectionCreationModal";
 
-// hook으로 정리 예정
-import { useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import CONFIG from "../../constants/config";
-import { useCollectionsState } from "../../hooks/useCollections";
-
 function SideBar() {
-  const [collections, setCollections] = useCollectionsState();
-  const { pathname } = useLocation();
+  const collections = useCollections();
   const navigate = useNavigate();
   const modal = useModal();
+  const { pathname } = useLocation();
   const currentPath = pathname.split("/").slice(0, 3).join("/");
-
-  useEffect(() => {
-    (async () => {
-      const response = await fetch(`${CONFIG.CRUDIFY_URL}/_dashboard/collections`);
-      const { data } = await response.json();
-
-      setCollections(data);
-    })();
-  }, [setCollections]);
 
   const onPageButtonClick = (event) => {
     const destination = event.target.innerText.toLowerCase();
@@ -102,8 +89,8 @@ const CreateButton = styled.button`
   }
 
   &:hover {
-    background: #233654;
-    color: #E5E5E5;
+    background: ${THEME.COLORS.NAVY};
+    color: ${THEME.COLORS.WHITE};
   }
 `;
 

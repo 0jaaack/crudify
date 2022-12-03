@@ -1,38 +1,25 @@
 import React from "react";
 import styled from "styled-components";
 
+import { useCheckServer } from "crudify-service/dashboard/src/hooks/useServerCheck";
+import { useToast } from "crudify-service/dashboard/src/hooks/useToast";
+import { useModal } from "crudify-service/dashboard/src/hooks/useModal";
+import TEXT from "crudify-service/dashboard/src/constants/text";
 import BarButton from "../atoms/BarButton";
 import Window from "../atoms/Window";
 import CreateCollectionModal from "../windows/CollectionCreationModal";
 
-// hook으로 정리 예정
-import { useState, useEffect } from "react";
-import CONFIG from "crudify-service/dashboard/src/constants/config";
-import { useToast } from "crudify-service/dashboard/src/hooks/useToast";
-import { useModal } from "crudify-service/dashboard/src/hooks/useModal";
-
 function Home() {
+  const isHealthy = useCheckServer();
   const toast = useToast();
   const modal = useModal();
-  const [isConnected, setIsConnected] = useState(false);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const response = await fetch(`${CONFIG.CRUDIFY_URL}/_dashboard/health`);
-        const result = await response.json();
+  const title = TEXT.HOME_TEXT.TITLE[isHealthy ? "SUCCESS" : "FAIL"];
+  const descriptions = TEXT.HOME_TEXT.DESCRIPTION[isHealthy ? "SUCCESS" : "FAIL"];
 
-        setIsConnected(!!result?.data);
-      } catch {
-        toast("서버와의 연결에 실패하였습니다.");
-        setIsConnected(!!result?.data);
-      }
-    })();
-  }, [setIsConnected]);
-
-  const title = isConnected
-    ? "Hello Crudify World!"
-    : "Server Not Connected!";
+  if (!isHealthy) {
+    return toast("서버의 정보를 불러오는 데에 실패하였습니다.");
+  }
 
   const handleCreateModal = () => {
     modal(<CreateCollectionModal />);
@@ -43,8 +30,11 @@ function Home() {
       <HomeHeader>
         <HomeTitle>{title}</HomeTitle>
         <HomeDescription>
-          <span>서버와의 연결에 성공하였습니다.</span><br />
-          <span>이제 새로운 컬렉션을 만들고, Endpoint를 연결해볼 수 있어요!</span>
+          {descriptions.map((text) => (
+            <p key={text}>
+              {text}
+            </p>
+          ))}
         </HomeDescription>
       </HomeHeader>
       <QuickMenu>
@@ -83,9 +73,9 @@ const HomeTitle = styled.h2`
   font-style: italic;
 `;
 
-const HomeDescription = styled.p`
+const HomeDescription = styled.div`
   font-size: 1.1rem;
-  white-space: pre;
+  line-height: 2rem;
 `;
 
 const QuickMenu = styled.li`

@@ -1,35 +1,25 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
-import CONFIG from "crudify-service/dashboard/src/constants/config";
-import LoadingSpinner from "crudify-service/dashboard/src/components/atoms/Spinner";
-import { useToast } from "crudify-service/dashboard/src/hooks/useToast";
+
+import { useServerReload } from "../../hooks/useServerReload";
+import { useToast } from "../../hooks/useToast";
+import LoadingSpinner from "../atoms/Spinner";
 
 function ServerReloadModal({ closeModal, successNext }) {
   const toast = useToast();
 
-  useEffect(() => {
-    const checkServerInterval = setInterval(async () => {
-      try {
-        const response = await fetch(`${CONFIG.CRUDIFY_URL}/_dashboard/health`);
-        const { data } = await response.json();
+  useServerReload(1000 * 10, {
+    onSuccess: () => {
+      closeModal();
 
-        if (data === "ok") {
-          toast("수정사항을 반영해, 서버를 재시작하였습니다!");
-          closeModal();
+      return successNext();
+    },
+    onFail: () => {
+      toast("서버를 일시적인 이유로 재시작하지 못하였습니다.");
 
-          if (!!successNext) {
-            return successNext();
-          }
-        }
-      } catch {
-        return;
-      }
-    }, 100);
-
-    return () => {
-      clearInterval(checkServerInterval);
-    };
-  }, []);
+      return closeModal();
+    }
+  });
 
   return (
     <Container>
@@ -44,6 +34,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 1rem 0;
   position: relative;
   width: 28rem;
   height: 15rem;

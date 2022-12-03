@@ -1,44 +1,38 @@
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
+import { useAddCollection } from "../../hooks/useCollections";
+import { useModal } from "../../hooks/useModal";
+import { useToast } from "../../hooks/useToast";
 import THEME from "../../constants/theme";
 import Button from "../atoms/Button";
+import ServerReloadModal from "../windows/ServerReloadingModal";
 
-// hook으로 정리 예정
-import { useNavigate } from "react-router-dom";
-import { useModal } from "crudify-service/dashboard/src/hooks/useModal";
-import { useSetCollections } from "../../hooks/useCollections";
-import CONFIG from "../../constants/config";
-import ServerReloadModal from "crudify-service/dashboard/src/components/windows/ServerReloadingModal";
-
-
-function CreateCollectionModal() {
-  const setCollections = useSetCollections();
+function CreateCollectionModal({ closeModal }) {
+  const addCollection = useAddCollection();
   const navigate = useNavigate();
   const modal = useModal();
+  const toast = useToast();
 
   const handleCreateClick = async (event) => {
     event.preventDefault();
 
     const collectionName = event.target.collectionName.value;
-
-    await fetch(`${CONFIG.CRUDIFY_URL}/_dashboard/collections`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    addCollection(collectionName, {
+      onSuccess: () => {
+        modal(
+          <ServerReloadModal
+            successNext={() => navigate(`/collections/${collectionName}/model`)}
+          />
+        );
       },
-      body: JSON.stringify({
-        name: collectionName
-      }),
+      onError: () => {
+        toast("컬렉션을 저장하는 데 실패하였습니다.");
+        closeModal();
+      }
     });
 
-    setCollections(prev => prev.concat(collectionName));
-
-    modal(
-      <ServerReloadModal
-        successNext={() => navigate(`/collections/${collectionName}/model`)}
-      />
-    );
   };
 
   return (

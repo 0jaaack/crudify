@@ -35,14 +35,16 @@ function Modal({ element, closeModal }) {
 
   return (
     <ModalPortal>
-      <ModalBackground onClick={handleOuterClick}>
-        <ModalWindow>
-          <ModalCloseButton onClick={closeModal} className="material-symbols-outlined">
-            close
-          </ModalCloseButton>
-          {React.cloneElement(element, { closeModal })}
-        </ModalWindow>
-      </ModalBackground>
+      <React.Suspense>
+        <ModalBackground onClick={handleOuterClick}>
+          <ModalWindow>
+            <ModalCloseButton onClick={closeModal} className="material-symbols-outlined">
+              close
+            </ModalCloseButton>
+            {React.cloneElement(element, { closeModal })}
+          </ModalWindow>
+        </ModalBackground>
+      </React.Suspense>
     </ModalPortal>
   );
 }
